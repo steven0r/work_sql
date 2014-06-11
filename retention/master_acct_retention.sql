@@ -10,6 +10,8 @@ FROM
         DISTINCT p2.[Master Account Number] AS master
     FROM
         [PayrollAcctSnapshot-Active-p2] AS p2
+    WHERE
+        p2.[Active Annual Premium} > 0
     GROUP BY
         p2.[Master Account Number]
     ) AS dist
