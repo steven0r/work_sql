@@ -1,0 +1,67 @@
+[1mdiff --git a/retention/master_acct_retention.sql b/retention/master_acct_retention.sql[m
+[1mindex a9e7660..53a4d71 100644[m
+[1m--- a/retention/master_acct_retention.sql[m
+[1m+++ b/retention/master_acct_retention.sql[m
+[36m@@ -4,19 +4,53 @@[m [mSELECT[m
+     COUNT(dist.master)[m
+ FROM[m
+     ([m
+[31m-        SELECT[m
+[31m-            DISTINCT p2.[Master Account Number] AS master[m
+[31m-        FROM[m
+[31m-            [PayrollAcctSnapshot-Active-p2] AS p2[m
+[31m-        GROUP BY[m
+[31m-            p2.[Master Account Number][m
+[32m+[m[32m    SELECT[m
+[32m+[m[32m        DISTINCT p2.[Master Account Number] AS master[m
+[32m+[m[32m    FROM[m
+[32m+[m[32m        [PayrollAcctSnapshot-Active-p2] AS p2[m
+[32m+[m[32m    GROUP BY[m
+[32m+[m[32m        p2.[Master Account Number][m
+     ) AS dist[m
+ ;[m
+ [m
+ SELECT[m
+[32m+[m[32m    paa.Year AS year,[m
+[32m+[m[32m    paa.Month AS month,[m
+[32m+[m[32m    paa.[Master Account Number] AS man,[m
+[32m+[m[32m    paa.Status AS status,[m
+[32m+[m[32m    COUNT(paa.Status) AS status_cnt[m
+[32m+[m[32mFROM[m
+[32m+[m[32m    [Payroll Account Activity] AS paa[m
+[32m+[m[32mGROUP BY[m
+[32m+[m[32m    paa.Year,[m
+[32m+[m[32m    paa.Month,[m
+     paa.[Master Account Number],[m
+[31m-    paa.[Status Chg Date],[m
+     paa.Status[m
+[32m+[m[32m;[m
+[32m+[m
+[32m+[m[32mSELECT[m
+[32m+[m[32m    grp.year,[m
+[32m+[m[32m    grp.month,[m
+[32m+[m[32m    grp.man,[m
+[32m+[m[32m    COUNT(grp.man)[m
+ FROM[m
+[31m-    [Payroll Account Activity] AS paa[m
+[32m+[m[32m    ([m
+[32m+[m[32m    SELECT[m
+[32m+[m[32m        paa.Year AS year,[m
+[32m+[m[32m        paa.Month AS month,[m
+[32m+[m[32m        paa.[Master Account Number] AS man,[m
+[32m+[m[32m        paa.Status AS status,[m
+[32m+[m[32m        COUNT(paa.Status) AS status_cnt[m
+[32m+[m[32m    FROM[m
+[32m+[m[32m        [Payroll Account Activity] AS paa[m
+[32m+[m[32m    GROUP BY[m
+[32m+[m[32m        paa.Year,[m
+[32m+[m[32m        paa.Month,[m
+[32m+[m[32m        paa.[Master Account Number],[m
+[32m+[m[32m        paa.Status[m
+[32m+[m[32m    ) AS grp[m
+[32m+[m[32mGROUP BY[m
+[32m+[m[32m    grp.year,[m
+[32m+[m[32m    grp.month,[m
+[32m+[m[32m    grp.man[m
+ ;[m
+\ No newline at end of file[m
