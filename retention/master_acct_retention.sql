@@ -16,6 +16,8 @@ FROM
 ;
 
 --use for activity db
+--access won't run the group function...
+--run it w/o the group and use sumproduct in Excel
 SELECT
     paa.Year,
     paa.Month,
@@ -34,7 +36,7 @@ WHERE
             )
     AND
        (
-        [Status Chg Date] BETWEEN "5/28/2011" AND "5/23/2014"
+        Year BETWEEN 2011 AND 2014
         )       
     )
 GROUP BY
